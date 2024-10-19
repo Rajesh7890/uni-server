@@ -44,7 +44,7 @@ const BookController = {
     const id = req.params.id;
 
     Book.delete(id).then(response => {
-      if (!response) {
+      if (!response){
         return res.status(404).json({ success: false, message: 'Book not found' });
       }
 

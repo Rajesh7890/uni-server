@@ -44,7 +44,7 @@ const ExpenseController = {
     const id = req.params.id;
 
     Expense.delete(id).then(response => {
-      if (!response) {
+      if (!response){
         return res.status(404).json({ success: false, message: 'Expense not found' });
       }
 

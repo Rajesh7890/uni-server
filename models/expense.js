@@ -4,8 +4,8 @@ const UNMODIFIABLE_COLUMNS = ['id', 'created_at', 'updated_at'];
 
 let columns;
 
-async function getColumns() {
-  if (!columns) {
+async function getColumns(){
+  if (!columns){
     const result = await pool.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'expenses'");
     columns = result.rows.map(row => row.column_name);
   }
@@ -19,19 +19,19 @@ const Expense = {
     return expenses.rows;
   },
 
-  async get(id) {
+  async get(id){
     const expense = await pool.query('SELECT * FROM expenses WHERE id = $1', [id]);
     return expense.rows[0];
   },
 
-  async create(expense) {
+  async create(expense){
     const col = columns || await getColumns();
 
     let query = `INSERT INTO expenses (`;
     let values = [];
 
-    for (const key in expense) {
-      if (col.includes(key) && !UNMODIFIABLE_COLUMNS.includes(key)) {
+    for (const key in expense){
+      if (col.includes(key) && !UNMODIFIABLE_COLUMNS.includes(key)){
         query += `${key}, `;
         values.push(expense[key]);
       }
@@ -45,14 +45,14 @@ const Expense = {
     return result.rows[0];
   },
 
-  async update(expense) {
+  async update(expense){
     const col = columns || await getColumns();
 
     let query = `UPDATE expenses SET `;
     let values = [];
 
-    for (const key in expense) {
-      if (col.includes(key) && !UNMODIFIABLE_COLUMNS.includes(key)) {
+    for (const key in expense){
+      if (col.includes(key) && !UNMODIFIABLE_COLUMNS.includes(key)){
         query += `${key} = $${values.length + 1}, `;
         values.push(expense[key]);
       }
@@ -66,7 +66,7 @@ const Expense = {
     return result.rows[0];
   },
 
-  async delete(id) {
+  async delete(id){
     const result = await pool.query('DELETE FROM expenses WHERE id = $1', [id]);
     return result.rowCount > 0;
   }
