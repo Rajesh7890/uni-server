@@ -8,18 +8,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "~1.4.7",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "dotenv": "^16.4.5",
-    "express": "~4.16.1",
+    "dotenv": "^16.6.1",
+    "express": "~4.16.4",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "pg": "^8.13.0"
+    "pg": "^8.16.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
-    "eslint": "^9.13.0",
-    "globals": "^15.11.0"
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0",
+    "globals": "^15.15.0"
   }
 }

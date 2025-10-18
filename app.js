@@ -3,11 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
-var booksRouter = require('./routes/books');
-var expensesRouter = require('./routes/expenses');
+var articlesRouter = require('./routes/articles');
 
 var app = express();
 
@@ -21,11 +21,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Configure CORS to allow requests from your client's origin
+// Replace 'http://localhost:3000' with the actual origin of your client-side application
+app.use(cors({
+  origin: 'http://localhost:3000' // Example: if your client is running on port 3000
+}));
+
 app.use('/', indexRouter);
 
-app.use('/books', booksRouter);
-
-app.use('/expenses', expensesRouter);
+app.use('/articles', articlesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
