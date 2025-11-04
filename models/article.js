@@ -13,7 +13,7 @@ async function getColumns(){
   return columns;
 }
 
-const NewsArticle = {
+const Article = {
   async getAll(){
     const articles = await pool.query('SELECT * FROM articles ORDER BY created_at DESC');
     return articles.rows;
@@ -25,12 +25,12 @@ const NewsArticle = {
   },
 
   async getBySection(section){
-    const articles = await pool.query('SELECT * FROM articles WHERE section = $1 ORDER BY created_at DESC', [section]);
+    const articles = await pool.query('SELECT * FROM articles WHERE section ILIKE $1 ORDER BY created_at DESC', [section]);
     return articles.rows;
   },
 
   async getByTag(tag){
-    const articles = await pool.query('SELECT * FROM articles WHERE tag = $1 ORDER BY created_at DESC', [tag]);
+    const articles = await pool.query('SELECT * FROM articles WHERE tag ILIKE $1 ORDER BY created_at DESC', [tag]);
     return articles.rows;
   },
 
@@ -83,4 +83,4 @@ const NewsArticle = {
   }
 }
 
-module.exports = NewsArticle;
+module.exports = Article;

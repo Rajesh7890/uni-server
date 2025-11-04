@@ -1,4 +1,4 @@
-const Article = require("../models/articles");
+const Article = require("../models/article");
 
 const ArticleController = {
   getAllArticles(req, res){

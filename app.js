@@ -4,10 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+
 require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var articlesRouter = require('./routes/articles');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -21,15 +23,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configure CORS to allow requests from your client's origin
-// Replace 'http://localhost:3000' with the actual origin of your client-side application
+// Configure CORS - Update this section
 app.use(cors({
-  origin: 'http://localhost:3000' // Example: if your client is running on port 3000
+  origin:         process.env.FRONTEND_URL || 'http://localhost:3000',
+  methods:        ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials:    true
 }));
 
 app.use('/', indexRouter);
 
 app.use('/articles', articlesRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
@@ -44,7 +49,16 @@ app.use(function(err, req, res, next){
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+
+  // Send JSON error response for API routes
+  if (req.path.startsWith('/auth') || req.path.startsWith('/articles')){
+    res.json({
+      message: err.message,
+      error:   req.app.get('env') === 'development' ? err : {}
+    });
+  } else {
+    res.render('error');
+  }
 });
 
 module.exports = app;
